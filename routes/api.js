@@ -4,7 +4,18 @@ const Driver = require('../models/driver');
 
 // Get a list of drivers from the database
 router.get('/drivers', function(req, res, next){
-	res.send({type: 'GET'});
+	// Driver.find({}).then(function(drivers){
+	// 	res.send(drivers);
+	// });
+	Driver.geoNear({
+		type: "Point",
+		coordinates: [parseFloat(req.query.lng), parseFloat(req.query.lat)]
+	}, {
+		maxDistance: 300000,
+		spherical: true
+	}).then(function(drivers){
+		res.send(drivers);
+	});
 });
 
 // Add a new driver to the database
