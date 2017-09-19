@@ -16,14 +16,16 @@ router.post('/drivers', function(req, res, next){
 
 // Update a driver in the database
 router.put('/drivers/:id', function(req, res, next){
-	res.send({type: 'PUT'});
+	Driver.findByIdAndUpdate({_id: req.params.id}, req.body).then(function(){
+		Driver.findOne({_id: req.params.id}).then(function(driver){
+			res.send(driver);
+		});
+	});
 });
 
 // Delete a driver from the database
 router.delete('/drivers/:id', function(req, res, next){
-	Driver.findByIdAndRemove({
-		_id: req.params.id
-	}).then(function(driver){
+	Driver.findByIdAndRemove({_id: req.params.id}).then(function(driver){
 		res.send(driver);
 	});
 });
