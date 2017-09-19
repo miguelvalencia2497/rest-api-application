@@ -2,13 +2,9 @@ const express = require ('express');
 
 const app = express();
 
-app.get('/api', function(req, res){
-	console.log('get request on /');
-	res.send({
-		name: 'Migo'
-	});
-});
+app.use('/api', require('./routes/api'));
 
-app.listen(3000, function(){
+
+app.listen(process.env.port || 3000, function(){
 	console.log('Listening to port 3000');
 });
